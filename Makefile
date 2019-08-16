@@ -11,7 +11,7 @@ help:
 	@grep -E '^[a-zA-Z\-\_0-9\.@]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 all: ## Build all versions
-	${SUDO} python ./build-all-releases.py PUSH=${PUSH}
+	python ./build-all-releases.py PUSH=${PUSH}
 
 build: ## Build a specifc version (TAG=release-3.2.7, VERSION=3.2.7)
 	set -xe; \
