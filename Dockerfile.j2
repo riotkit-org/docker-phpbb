@@ -1,0 +1,47 @@
+FROM {{ FROM_IMAGE }}
+
+LABEL maintainer="RiotKit" \
+  org.label-schema.name="phpbb" \
+  org.label-schema.description="PhpBB" \
+  org.label-schema.url="https://github.com/riotkit-org" \
+  org.label-schema.vcs-url="https://github.com/riotkit-org/docker-phpbb" \
+  org.label-schema.vendor="RiotKit" \
+  org.label-schema.version="{{ VERSION }}"
+
+ENV NGINX_ENABLE_DEFAULT_LOCATION_INDEX=true \
+    WWW_USER_ID=1000 \
+    WWW_GROUP_ID=1000 \
+    PHPBB_VERSION={{ VERSION }} \
+    PHPBB_DB_TYPE=mysqli \
+    PHPBB_DB_HOST=db_mysql \
+    PHPBB_DB_PORT=3306 \
+    PHPBB_DB_NAME=phpbb \
+    PHPBB_DB_USER=phpbb \
+    PHPBB_DB_PASSWD=riotkit \
+    PHPBB_DB_TABLE_PREFIX=riotkit_ \
+    PHPBB_ACM_TYPE=file \
+    PHPBB_LOAD_EXTENSIONS= \
+    PHPBB_INSTALLED=false \
+    PHPBB_DEBUG=false \
+    PHPBB_DEBUG_EXTRA=false
+
+ADD application.tar.gz /var/www/html/
+ADD entrypoint.d/* /entrypoint.d/
+ADD data /.data.template
+
+RUN cd /var/www/html \
+    && mv ./*phpbb-*/* ./ \
+    && find . -maxdepth 1 \! \( -name phpBB \) -exec rm -rf '{}' \; \
+    && mv phpBB/* ./ \
+    && rm -rf phpBB \
+    && chown www-data:www-data /var/www/html -R \
+    && su www-data -s "/bin/bash" -c "composer install" \
+    \
+    && mkdir /data/images /data/files /data/store /data/ext -p \
+    && ln -s /data/images /var/www/html/images \
+    && ln -s /data/files /var/www/html/files \
+    && ln -s /data/store /var/www/html/store \
+    && ln -s /data/ext /var/www/html/ext \
+    && chown www-data -R /data
+
+COPY etc/nginx/conf.d/* /.etc.template/nginx/conf.d/
