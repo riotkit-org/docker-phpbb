@@ -40,9 +40,10 @@ class BuildAllReleases:
                     .replace('%TAG%', git_tag)
 
                 print(' ===> %s' % command)
-                subprocess.check_output(command, stderr=sys.stderr, shell=True)
+                print(subprocess.check_output(command, stderr=sys.stderr, shell=True))
 
-            except subprocess.CalledProcessError:
+            except subprocess.CalledProcessError as e:
+                print(e.output)
                 result = False
 
         return result
