@@ -12,8 +12,8 @@ before_script:
     - sudo docker run --rm --privileged multiarch/qemu-user-static:register --reset
 
     # dependencies
-    - rm /usr/bin/python3
-    - ln -s /usr/bin/python /usr/bin/python3
+    - sudo rm /usr/bin/python3
+    - sudo ln -s /usr/bin/python /usr/bin/python3
     - sudo apt-get update -y
     - sudo apt-get install -y python3-pip
     - sudo python3 -m pip install j2cli requests
