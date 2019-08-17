@@ -45,16 +45,12 @@ class BuildAllReleases:
             if version == 'snapshot':
                 continue
 
-            try:
-                command = self.build_command\
-                    .replace('%VERSION%', version) \
-                    .replace('%TAG%', git_tag)
+            command = self.build_command\
+                .replace('%VERSION%', version) \
+                .replace('%TAG%', git_tag)
 
-                print(' ===> %s' % command)
-                print(subprocess.check_output(command, stderr=sys.stderr, shell=True))
-
-            except subprocess.CalledProcessError as e:
-                print(e.output)
+            print(' ===> %s' % command)
+            if subprocess.call(command, shell=True) != 0:
                 result = False
 
         return result
