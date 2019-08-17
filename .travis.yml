@@ -13,6 +13,7 @@ before_script:
 
     # dependencies
     - pip install j2cli requests
+    - curl "https://raw.githubusercontent.com/riotkit-org/ci-utils/master/ci-integration/travis.sh" -s | bash
 
     # authorization
     - echo "$DOCKER_PASSWORD" | sudo docker login -u "$DOCKER_USERNAME" --password-stdin
