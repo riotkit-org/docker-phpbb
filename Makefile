@@ -24,15 +24,9 @@ build: ## Build a specifc version (TAG=release-3.2.7, VERSION=3.2.7)
 	${SUDO} docker build . -f ./Dockerfile -t ${IMG_DH}:${VERSION}; \
 	${SUDO} docker tag ${IMG_DH}:${VERSION} ${IMG_QUAY}:${VERSION}; \
 	\
-	${SUDO} docker tag ${IMG_DH}:${VERSION} ${IMG_DH}:latest; \
-	${SUDO} docker tag ${IMG_DH}:${VERSION} ${IMG_QUAY}:latest; \
-	\
 	if [[ "${PUSH}" == "true" ]]; then \
 		${SUDO} docker push ${IMG_DH}:${VERSION}; \
 		${SUDO} docker push ${IMG_QUAY}:${VERSION}; \
-		\
-		${SUDO} docker push ${IMG_DH}:latest; \
-		${SUDO} docker push ${IMG_QUAY}:latest; \
 	fi; \
 	\
 	./notify.sh "$SLACK_URL" "[OK] built ${REPO} version: ${VERSION}"
