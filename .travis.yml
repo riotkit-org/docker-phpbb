@@ -1,18 +1,13 @@
 language: python
+if: branch = master
+python: 3.6
 services:
     - docker
 
 before_script:
-    # multiarch builds
-    - docker --version  # document the version Travis is using (currently 17.x, which is way too old)
-    - echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json # try to use manifests
-    - mkdir -p $HOME/.docker
-    - echo '{"experimental":"enabled"}' | tee $HOME/.docker/config.json # needed to use docker manifest
-    - sudo service docker restart
-    - sudo docker run --rm --privileged multiarch/qemu-user-static:register --reset
-
     # dependencies
     - pip install j2cli requests
+    - wget https://github.com/riotkit-org/ci-utils/archive/v1.2.3.zip -O /tmp/ci-utils.zip
     - curl "https://raw.githubusercontent.com/riotkit-org/ci-utils/master/ci-integration/travis.sh" -s | bash
 
     # authorization

@@ -1,3 +1,5 @@
 /.idea
 /Dockerfile
 /application.tar.gz
+/.helpers/*
+!/.helpers/.gitkeep
