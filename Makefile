@@ -28,10 +28,12 @@ build: ## Build a specifc version (TAG=release-3.2.7, VERSION=3.2.7)
 	VERSION=${VERSION} FROM_IMAGE=${IMAGE} j2 ./Dockerfile.j2 > ./Dockerfile; \
 	${SUDO} docker build . -f ./Dockerfile -t ${IMG_DH}:${VERSION}; \
 	${SUDO} docker tag ${IMG_DH}:${VERSION} ${IMG_QUAY}:${VERSION}; \
+	${SUDO} docker tag ${IMG_DH}:${VERSION} ${IMG_QUAY}:${VERSION}-$$(date '+%Y-%m-%d'); \
 	\
 	if [[ "${PUSH}" == "true" ]]; then \
 		${SUDO} docker push ${IMG_DH}:${VERSION}; \
 		${SUDO} docker push ${IMG_QUAY}:${VERSION}; \
+		${SUDO} docker push ${IMG_QUAY}:${VERSION}-$$(date '+%Y-%m-%d'); \
 	fi; \
 	\
 	./notify.sh "$SLACK_URL" "[OK] built ${REPO} version: ${VERSION}"
