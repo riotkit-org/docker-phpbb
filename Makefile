@@ -19,7 +19,7 @@ all: _download_tools ## Build all recent versions from github
 	./.helpers/for-each-github-release --exec "make build TAG=%GIT_TAG% VERSION=%RELEASE_TAG%-stable PUSH=${PUSH}" --repo-name phpbb/phpbb --dest-docker-repo quay.io/riotkit/phpbb $${BUILD_PARAMS} --allowed-tags-regexp="release-([0-9\.]+)$$" --release-tag-template="%MATCH_0%" --max-versions=5 --verbose
 
 build: ## Build a specifc version (TAG=release-3.2.7, VERSION=3.2.7)
-	set -xe; \
+	set -xe; \ 
 	url=https://api.github.com/repos/${REPO}/tarball/${TAG}; \
 	\
 	./notify.sh "$SLACK_URL" "[IN-PROGRESS] Building ${REPO} version: ${VERSION}"; \
