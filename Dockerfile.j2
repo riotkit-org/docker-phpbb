@@ -37,11 +37,11 @@ RUN cd /var/www/html \
     && chown www-data:www-data /var/www/html -R \
     && su www-data -s "/bin/bash" -c "composer install" \
     \
-    && mkdir /data/images /data/files /data/store /data/ext -p \
-    && ln -s /data/images /var/www/html/images \
-    && ln -s /data/files /var/www/html/files \
-    && ln -s /data/store /var/www/html/store \
-    && ln -s /data/ext /var/www/html/ext \
+    && mkdir /data -p \
+    && mv /var/www/html/images /data/images \
+    && mv /var/www/html/files /data/files \
+    && mv /var/www/html/store /data/store \
+    && mv /var/www/html/ext /data/ext \
     && chown www-data -R /data
 
 COPY etc/nginx/conf.d/* /.etc.template/nginx/conf.d/

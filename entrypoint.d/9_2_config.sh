@@ -11,3 +11,9 @@ fi
 if [[ -f /data/config.php ]] && [[ ! -f /var/www/html/config.php ]]; then
     ln -s /data/config.php /var/www/html/config.php
 fi
+
+echo " >> Linking directories from /data"
+ln -s /data/files /var/www/html/files || true
+ln -s /data/images /var/www/html/images || true
+ln -s /data/store /var/www/html/store || true
+ln -s /data/ext /var/www/html/ext || true
